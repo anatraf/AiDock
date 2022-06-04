@@ -1,0 +1,54 @@
+from unittest import TestCase
+
+
+class TestEmailPriorty(TestCase):
+        def setUp(self):
+            self.inbox = inbox()
+            self.email1 = email_priorty("low", "low", "low")
+            self.email2 = email_priorty("high", "high", "high")
+            self.email3 = email_priorty("medium", "low", "low")
+
+        #check what mail of the 3 is bigger
+        def test_priorty(self):
+            self.assertGreater(self.email2,self.email1)
+            self.assertGreater(self.email2,self.email3)
+            self.assertGreater(self.email3,self.email1)
+
+        #check if the both lists are the same
+        def test_priorty_inbox(self):
+            list_of_emails = [self.email2,self.email3,self.email1]
+            self.assertEqual(self.inbox,list_of_emails)
+
+    pass
+
+class FullInbox(TestCase):
+    #let say N = 3
+    def setUp(self):
+        self.email1 = email_priorty("low", "low", "low")
+        self.email2 = email_priorty("high", "high", "high")
+        self.inbox1 = [self.email1,self.email1,self.email1]
+        self.inbox2 = [self.email2,self.email1,self.email1]
+
+    #send a higher priorty email and see if it is put forst in the list
+    def test_add_high_priorty_email(self):
+        self.assertNotEqual(self.inbox1,self.inbox2)
+        self.assertEqual(len(self.inbox1),len(self.inbox2))
+        self.assertGreater(self.inbox2[0],self.inbox1[0])
+
+    #send an email with the same priorty. the list should not change
+    def test_add_same_priorty_email(self):
+        self.assertEqual(self.inbox1,self.inbox2)
+        self.assertEqual(len(self.inbox1), len(self.inbox2))
+        self.assertEqual(self.inbox2[0], self.inbox1[0])
+
+    pass
+
+class TotalyDifferentEmails(TestCase):
+    def setUp(self):
+        self.email1 = email_priorty("medium", "low", "high")
+        self.email2 = email_priorty("low", "high", "high")
+
+    def test_higher_priorty(self):
+        self.assertGreater(self.email2,self.email1)
+
+    pass
